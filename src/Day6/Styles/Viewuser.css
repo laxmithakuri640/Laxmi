@@ -1,0 +1,78 @@
+/* Base layout */
+.viewuser-wrapper {
+  min-height: 100vh;
+  background-color: #121212;
+  color: #ffffff;
+  padding: 20px;
+  font-family: 'Carmilla', serif; /* 👈 Add Carmilla here */
+}
+
+/* Heading */
+.viewuser-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Search input */
+.viewuser-search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #1e1e1e;
+  color: white;
+}
+
+/* Table */
+.viewuser-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.viewuser-table th,
+.viewuser-table td {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+.viewuser-table th {
+  background-color: #222;
+  color: #ddd;
+}
+
+.viewuser-table td {
+  background-color: #1a1a1a;
+}
+
+/* Button */
+.viewuser-btn {
+  padding: 6px 12px;
+  background-color: #2979ff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.viewuser-btn:hover {
+  background-color: #448aff;
+}
+
+/* Pagination */
+.viewuser-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewuser-page-text {
+  font-size: 14px;
+  color:#ec0aa8;
+}

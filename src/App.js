@@ -1,10 +1,10 @@
 import React from 'react'
-import FocusInput from './Day5/Foucsinput'
+import Path from './Path'
 
-export default function App() {
+export default function Layout() {
   return (
     <div>
-     <FocusInput/>
+      <Path/>
     </div>
   )
 }
