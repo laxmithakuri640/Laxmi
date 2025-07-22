@@ -5,7 +5,7 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [newTodo, setNewTodo] = useState(""); // 🆕 for input value
+  const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -27,18 +27,41 @@ function Todo() {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const trimmed = newTodo.trim();
     if (!trimmed) return;
 
-    const newItem = {
-      id: Date.now(), // simple unique ID
-      todo: trimmed,
-      completed: false,
-    };
+    try {
+      const res = await axios.post("https://dummyjson.com/todos/add", {
+        todo: trimmed,
+        completed: false,
+        userId: 1,
+      });
 
-    setTodos((prevTodos) => [newItem, ...prevTodos]);
-    setNewTodo(""); // clear input
+      setTodos((prev) => [res.data, ...prev]);
+      setNewTodo("");
+    } catch (err) {
+      console.error("Error adding todo:", err);
+      alert("Failed to add todo.");
+    }
+  };
+
+  const handleToggle = (id) => {
+    setTodos((prevTodos) => {
+      const newTodos = prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      );
+
+      // Find updated todo & sync change to backend using PUT
+      const updated = newTodos.find((t) => t.id === id);
+      axios
+        .put(`https://dummyjson.com/todos/${id}`, { completed: updated.completed })
+        .catch((err) => {
+          console.error("Failed to update completion status:", err);
+        });
+
+      return newTodos;
+    });
   };
 
   const styles = {
@@ -110,10 +133,20 @@ function Todo() {
 
       {todos.map((todo) => (
         <div style={styles.todoBox} key={todo.id}>
-          <span style={todo.completed ? styles.completed : {}}>
-            {todo.todo}
-          </span>
-          <button style={styles.deleteButton} onClick={() => handleDelete(todo.id)}>
+          <label style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleToggle(todo.id)}
+            />
+            <span style={todo.completed ? styles.completed : {}}>
+              {todo.todo}
+            </span>
+          </label>
+          <button
+            style={styles.deleteButton}
+            onClick={() => handleDelete(todo.id)}
+          >
             Delete
           </button>
         </div>
